@@ -112,16 +112,21 @@ window.addEventListener('DOMContentLoaded', () => {
 
     //Modal 
 
-    const modalTrigger = document.querySelectorAll('{data-modal}'),
+    const modalTrigger = document.querySelectorAll('[data-modal]'),
             modal = document.querySelector('.modal'),
-            modalCloseBtn = document.querySelector('{data-close}');
+            modalCloseBtn = document.querySelector('[data-close]');
     
     //show modal
+    function openModal() {
+        modal.classList.add('show');
+        modal.classList.remove('hide');
+        document.body.style.overflow = 'hidden';
+        clearInterval(modalTimerId); //stopper for timeInterval if user oppend modal himself
+    }
+
     modalTrigger.forEach(btn => {
         btn.addEventListener('click', () => {
-            modal.classList.add('show');
-            modal.classList.remove('hide');
-            document.body.style.overflow = 'hidden';
+            openModal();
         });
     });
 
@@ -149,4 +154,17 @@ window.addEventListener('DOMContentLoaded', () => {
             closeModal();
         }
     });
+
+    //automatization of showing modal
+    const modalTimerId = setTimeout(openModal, 5000);
+    
+    function showModalByScroll() {
+        if (window.pageYOffset + document.documentElement.clientHeight >= 
+            document.documentElement.scrollHeight - 1) { //-1 px for fixing bag whith calling function
+                openModal();
+                removeEventListener('scroll', showModalByScroll);
+        }
+    }
+
+    window.addEventListener('scroll', showModalByScroll);
 });
