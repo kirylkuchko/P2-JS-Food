@@ -236,4 +236,67 @@ window.addEventListener('DOMContentLoaded', () => {
         '.menu .container',
         'menu__item'
     ).render();
+
+    //Forms
+    const forms = document.querySelectorAll('form');
+
+    const msg = {
+        loading: 'Загрузка',
+        success: 'Спасибо! Мы скоро с вами свяжемся',
+        failure: 'Что-то пошло не так, попробуйте еще раз'
+    };
+
+    function postData(form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            //added massege with status in form
+            const statusMessage = document.createElement('div');
+            statusMessage.classList.add('status');
+            statusMessage.textContent = msg.loading;
+            form.append(statusMessage);
+            
+            //conect with server
+            const request  = new XMLHttpRequest();
+            request.open('POST', 'server.php');
+
+            //////////Standart server request
+            //request.setRequestHeader('Content-type', 'multipart/form-data'); - Dont needed with form
+            const formData = new FormData(form);
+            request.send(formData);
+            //////////
+
+            //////////JSON server request
+/*             request.setRequestHeader('Content-type', 'application/json');
+            const formData = new FormData(form);
+
+            const obj = {};
+            formData.forEach(function(value, key) {
+                obj[key] = value;
+            });
+            
+            const json = JSON.stringify(obj);
+            request.send(json); */
+            ///////////
+
+            //post data
+            request.addEventListener('load', ()=> {
+                if (request.status === 200) {
+                    console.log(request.response);
+                    statusMessage.textContent = msg.success;
+                    form.reset();
+                    setTimeout(() => {
+                        statusMessage.remove();
+                    }, 2000);
+                } else {
+                    statusMessage.textContent = msg.failure;
+                }
+            });
+        });
+    }
+
+    //func POST for every field in form
+    forms.forEach(item => {
+        postData(item);
+    });
 });
