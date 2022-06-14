@@ -1,0 +1,22 @@
+{
+  "name": "p2-js-food.ru",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kirylkuchko/P2-JS-Food.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kirylkuchko/P2-JS-Food/issues"
+  },
+  "homepage": "https://github.com/kirylkuchko/P2-JS-Food#readme",
+  "devDependencies": {
+    "json-server": "^0.17.0"
+  }
+}
